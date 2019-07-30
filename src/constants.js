@@ -7,6 +7,7 @@
 
 export const INVALID: string = 'INVALID'
 export const RESTORE: string = 'RESTORE'
+export const JOIN: string = 'JOIN'
 export const DEAL: string = 'DEAL'
 export const INSURANCE: string = 'INSURANCE'
 export const SPLIT: string = 'SPLIT'

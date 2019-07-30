@@ -19,6 +19,7 @@ declare module 'engine-blackjack' {
             | 'STAND'
             | 'SURRENDER'
             | 'SHOWDOWN'
+            | 'JOIN'
             | 'DEALER-HIT'
             | 'INVALID';
         payload?: ActionPayload;
@@ -31,6 +32,7 @@ declare module 'engine-blackjack' {
         hit: boolean;
         stand: boolean;
         surrender: boolean;
+        join: boolean;
     }
 
     interface Card {

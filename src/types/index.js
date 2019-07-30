@@ -9,7 +9,8 @@ export type AvailableActions = {
   insurance: boolean,
   hit: boolean,
   stand: boolean,
-  surrender: boolean
+  surrender: boolean,
+  join: Boolean,
 }
 
 export type Card = {

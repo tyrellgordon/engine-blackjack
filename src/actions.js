@@ -37,6 +37,13 @@ export const restore = (): Action => {
   }
 }
 
+export const join = (): Action => {
+  console.log('yooo')
+  return {
+    type: TYPES.JOIN
+  }
+}
+
 export const deal = ({ bet = 10, sideBets = { luckyLucky: 0 } }: { bet: number, sideBets: any } = {}): Action => {
   return {
     type: TYPES.DEAL,
