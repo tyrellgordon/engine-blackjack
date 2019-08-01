@@ -71,7 +71,16 @@ export const defaultState = (rules: Rule) : State => {
     availableBets: getDefaultSideBets(true),
     sideBetsInfo: {},
     rules: rules,
-    seat: {},
+    seat: [{handInfo: {
+      left: {},
+      right: {}
+    }},{handInfo: {
+      left: {},
+      right: {}
+    }}, {handInfo: {
+      left: {},
+      right: {}
+    }}],
     dealerHoleCard: null,
     dealerHasBlackjack: false,
     dealerHasBusted: false

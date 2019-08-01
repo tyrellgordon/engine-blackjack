@@ -269,7 +269,7 @@ export const isActionAllowed = (actionName: string, stage: string): boolean => {
   }
   switch (stage) {
     case TYPES.STAGE_READY: {
-      return [TYPES.RESTORE, TYPES.DEAL].indexOf(actionName) > -1
+      return [TYPES.RESTORE, TYPES.DEAL, TYPES.JOIN].indexOf(actionName) > -1
     }
     case TYPES.STAGE_PLAYER_TURN_RIGHT: {
       return [TYPES.STAND, TYPES.INSURANCE, TYPES.SURRENDER, TYPES.SPLIT, TYPES.HIT, TYPES.DOUBLE].indexOf(actionName) > -1

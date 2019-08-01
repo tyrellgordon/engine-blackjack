@@ -80,7 +80,7 @@ export type State = {
   availableBets: SideBets,
   sideBetsInfo: any,
   rules: Rule,
-  seat: Seat
+  seat: Array<Seat>
   dealerCards: Array<Card>,
   dealerHoleCard: ?Card,
   dealerHasBlackjack: boolean,

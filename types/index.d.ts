@@ -32,7 +32,6 @@ declare module 'engine-blackjack' {
         hit: boolean;
         stand: boolean;
         surrender: boolean;
-        join: boolean;
     }
 
     interface Card {
@@ -106,6 +105,12 @@ declare module 'engine-blackjack' {
         ts: number
     }
 
+    export type Seat = {
+
+        handInfo: HandInfo,
+      
+      }
+
     interface State {
         hits: number;
         initialBet: number;
@@ -131,6 +136,7 @@ declare module 'engine-blackjack' {
         dealerHasBlackjack: boolean;
         dealerHasBusted: boolean;
         cardCount: number;
+        seat: Seat[];
     }
 
     interface SideBetsInfo {

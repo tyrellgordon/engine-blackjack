@@ -42,7 +42,7 @@ export default class Game {
   getState: Function
   setState: Function
   enforceRules: Function
-  constructor (initialState: State, rules: Rule = getRules({})) {
+  constructor(initialState: State, rules: Rule = getRules({})) {
     this.state = initialState ? Object.assign({}, initialState) : defaultState(rules)
     this.dispatch = this.dispatch.bind(this)
     this.getState = this.getState.bind(this)
@@ -51,7 +51,7 @@ export default class Game {
     this._dispatch = this._dispatch.bind(this)
   }
 
-  canDouble (double: string, playerValue: HandValue): boolean {
+  canDouble(double: string, playerValue: HandValue): boolean {
     if (double === 'none') {
       return false
     } else if (double === '9or10') {
@@ -65,7 +65,7 @@ export default class Game {
     }
   }
 
-  enforceRules (handInfo: Hand): Hand {
+  enforceRules(handInfo: Hand): Hand {
     const { availableActions } = handInfo
     const { playerValue } = handInfo
     const { rules, history } = this.state
@@ -89,20 +89,20 @@ export default class Game {
     return handInfo
   }
 
-  getState () : State {
+  getState(): State {
     return {
       ...this.state
     }
   }
 
-  setState (state: State): void {
+  setState(state: State): void {
     this.state = {
       ...this.state,
       ...state
     }
   }
 
-  dispatch (action: Action): State {
+  dispatch(action: Action): State {
     const { stage, handInfo, history } = this.state
     const { type, payload = {} } = action
     const { position = TYPES.RIGHT } = payload
@@ -116,7 +116,7 @@ export default class Game {
       return this._dispatch(actions.invalid(action, `${type} is not allowed when stage is ${stage}`))
     }
 
-    const whiteList = [TYPES.RESTORE, TYPES.DEAL, TYPES.SHOWDOWN]
+    const whiteList = [TYPES.RESTORE, TYPES.DEAL, TYPES.SHOWDOWN, TYPES.JOIN]
 
     if (isActionAllowed && whiteList.some(x => x === type)) {
       // this is a safe action. We do not need to check the status of the stage
@@ -153,14 +153,14 @@ export default class Game {
     return this._dispatch(action)
   }
 
-  _dispatch (action: Action): State {
+  _dispatch(action: Action): State {
     switch (action.type) {
       case TYPES.DEAL: {
         const { bet, sideBets } = action.payload
         const { rules: { insurance }, availableBets, history, hits } = this.state
         const playerCards = this.state.deck.splice(this.state.deck.length - 2, 2)
         const dealerCards = this.state.deck.splice(this.state.deck.length - 1, 1)
-        const dealerHoleCard = this.state.deck.splice(this.state.deck.length - 1, 1)[ 0 ]
+        const dealerHoleCard = this.state.deck.splice(this.state.deck.length - 1, 1)[0]
         const dealerValue = engine.calculate(dealerCards)
         let dealerHasBlackjack = engine.isBlackjack(dealerCards.concat([dealerHoleCard]))
         const right = this.enforceRules(engine.getHandInfoAfterDeal(playerCards, dealerCards, bet))
@@ -189,8 +189,8 @@ export default class Game {
           dealerValue: dealerValue,
           dealerHasBlackjack: dealerHasBlackjack,
           deck: this.state.deck.filter(x => dealerCards
-              .concat(playerCards)
-              .indexOf(x) === -1),
+            .concat(playerCards)
+            .indexOf(x) === -1),
           cardCount: engine.countCards(playerCards.concat(dealerCards)),
           handInfo: {
             left: {},
@@ -212,11 +212,29 @@ export default class Game {
             // nothing left, let's go and tell the customer he loses this game
             this._dispatch(actions.showdown())
           }
-        // else
-        // in this case, the game must continue in "player-turn-right"
-        // waiting for the insurance action
+          // else
+          // in this case, the game must continue in "player-turn-right"
+          // waiting for the insurance action
         }
         break
+      }
+      case TYPES.JOIN: {
+        const { rules, initialBet, handInfo, dealerCards, history, hits } = this.state
+        let deck = this.state.deck
+        const playerCards = this.state.deck.splice(this.state.deck.length - 2, 2)
+        const right = playerCards
+        
+        // this.setState({
+        //   seat: {
+        //     handInfo: {
+        //       left: {},
+        //       right
+        //     },
+        //   },
+        //   deck: deck,
+        // })
+        this.state.seat[0].handInfo.right = right
+        break 
       }
       case TYPES.INSURANCE: {
         const { bet = 0 } = action.payload
@@ -252,14 +270,14 @@ export default class Game {
       case TYPES.SPLIT: {
         const { rules, initialBet, handInfo, dealerCards, history, hits } = this.state
         let deck = this.state.deck
-        const playerCardsLeftPosition = [handInfo.right.cards[ 0 ]]
-        const playerCardsRightPosition = [handInfo.right.cards[ 1 ]]
-        const forceShowdown = rules.showdownAfterAceSplit && playerCardsRightPosition[ 0 ].value === 1
+        const playerCardsLeftPosition = [handInfo.right.cards[0]]
+        const playerCardsRightPosition = [handInfo.right.cards[1]]
+        const forceShowdown = rules.showdownAfterAceSplit && playerCardsRightPosition[0].value === 1
         let cardRight = deck.splice(deck.length - 2, 1)
         let cardLeft = deck.splice(deck.length - 1, 1)
-        deck = deck.filter(x => [ cardLeft, cardRight ].indexOf(x) === -1)
-        playerCardsLeftPosition.push(cardLeft[ 0 ])
-        playerCardsRightPosition.push(cardRight[ 0 ])
+        deck = deck.filter(x => [cardLeft, cardRight].indexOf(x) === -1)
+        playerCardsLeftPosition.push(cardLeft[0])
+        playerCardsRightPosition.push(cardRight[0])
         const historyItem = appendEpoch({
           ...action,
           payload: { bet: initialBet },
@@ -508,7 +526,7 @@ export default class Game {
         // the new card for dealer can be the "dealerHoleCard" or a new card
         // dealerHoleCard was set at the deal()
         const { dealerHoleCard } = action.payload
-        const card = dealerHoleCard || deck.splice(deck.length - 1, 1)[ 0 ]
+        const card = dealerHoleCard || deck.splice(deck.length - 1, 1)[0]
         const dealerCards = this.state.dealerCards.concat([card])
         const dealerValue = engine.calculate(dealerCards)
         const dealerHasBlackjack = engine.isBlackjack(dealerCards)
