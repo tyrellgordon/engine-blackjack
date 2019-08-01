@@ -60,6 +60,12 @@ export type Rule = {
   showdownAfterAceSplit: boolean
 }
 
+
+export type Seat = {
+
+  handInfo: HandInfo,
+
+}
 export type State = {
   hits: number,
   initialBet: number,
@@ -74,6 +80,7 @@ export type State = {
   availableBets: SideBets,
   sideBetsInfo: any,
   rules: Rule,
+  seat: Seat
   dealerCards: Array<Card>,
   dealerHoleCard: ?Card,
   dealerHasBlackjack: boolean,

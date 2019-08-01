@@ -71,6 +71,7 @@ export const defaultState = (rules: Rule) : State => {
     availableBets: getDefaultSideBets(true),
     sideBetsInfo: {},
     rules: rules,
+    seat: {},
     dealerHoleCard: null,
     dealerHasBlackjack: false,
     dealerHasBusted: false
