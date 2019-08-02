@@ -37,10 +37,13 @@ export const restore = (): Action => {
   }
 }
 
-export const join = (): Action => {
+export const join = ({ seatPosition = 'P2' }: { seatPosition: string }): Action => {
   console.log('yooo')
   return {
-    type: TYPES.JOIN
+    type: TYPES.JOIN,
+    payload: {
+      seatPosition
+    }
   }
 }
 

@@ -2,6 +2,7 @@ declare module 'engine-blackjack' {
     interface ActionPayload {
         bet?: number;
         position?: 'right' | 'left';
+        seatPosition?: 'P2'| 'P3' | 'P4'
         sideBets?: SideBetsInfo;
         dealerHoleCardOnly?: boolean;
         type?: Action['type'];
@@ -169,6 +170,7 @@ declare module 'engine-blackjack' {
         function stand(options?: { position: 'right' | 'left' }): Action;
         function surrender(): Action;
         function double(options?: { position: 'right' | 'left' }): Action;
+        function join(options?: { position: 'P2' | 'P3'| 'P4' }): Action;
     }
 
     export namespace engine {

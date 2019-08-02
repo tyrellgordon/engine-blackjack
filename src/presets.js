@@ -71,13 +71,13 @@ export const defaultState = (rules: Rule) : State => {
     availableBets: getDefaultSideBets(true),
     sideBetsInfo: {},
     rules: rules,
-    seat: [{handInfo: {
+    seat: [{handInfoP2: {
       left: {},
       right: {}
-    }},{handInfo: {
+    }},{handInfoP3: {
       left: {},
       right: {}
-    }}, {handInfo: {
+    }}, {handInfoP4: {
       left: {},
       right: {}
     }}],
