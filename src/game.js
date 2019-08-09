@@ -225,13 +225,13 @@ export default class Game {
         const playerCards = this.state.deck.splice(this.state.deck.length - 2, 2)
         const right = playerCards
         
-        
-        if(seatPosition === TYPES.P3){
+        if (seatPosition === TYPES.P2){
+          this.state.seat[0].handInfoP2.right = right
+        }else if(seatPosition === TYPES.P3){
           this.state.seat[1].handInfoP3.right = right
         }else if(seatPosition === TYPES.P4){
           this.state.seat[2].handInfoP4.right = right
         }
-        this.state.seat[0].handInfoP2.right = right
         break 
       }
       case TYPES.INSURANCE: {
